@@ -1,0 +1,36 @@
+name: AQA Diploma CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'corretto'
+
+      - name: Start MySQL database via Docker Compose
+        run: docker-compose up -d
+
+      - name: Wait for MySQL to start
+        run: sleep 15
+
+      - name: Start the Application (SUT)
+        run: nohup java -jar aqa-shop.jar > app.log 2>&1 &
+
+      - name: Wait for Application to start
+        run: sleep 30
+
+      - name: Run Tests with Gradle in Headless mode
+        run: ./gradlew clean test -Dselenide.headless=true

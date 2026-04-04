@@ -37,4 +37,25 @@ public class PaymentPage {
     public void waitForErrorNotification() {
         errorNotification.shouldBe(visible, Duration.ofSeconds(15));
     }
+
+    private SelenideElement formatError = $$(".input__sub").findBy(exactText("Неверный формат"));
+    private SelenideElement emptyFieldError = $$(".input__sub").findBy(exactText("Поле обязательно для заполнения"));
+    private SelenideElement expiredDateError = $$(".input__sub").findBy(exactText("Истёк срок действия карты"));
+    private SelenideElement invalidDateError = $$(".input__sub").findBy(exactText("Неверно указан срок действия карты"));
+
+    public void waitForFormatError() {
+        formatError.shouldBe(visible);
+    }
+
+    public void waitForEmptyFieldError() {
+        emptyFieldError.shouldBe(visible);
+    }
+
+    public void waitForExpiredDateError() {
+        expiredDateError.shouldBe(visible);
+    }
+
+    public void waitForInvalidDateError() {
+        invalidDateError.shouldBe(visible);
+    }
 }
