@@ -21,7 +21,7 @@ jobs:
           distribution: 'corretto'
 
       - name: Start MySQL database via Docker Compose
-        run: docker-compose up -d
+        run: docker compose up -d
 
       - name: Wait for MySQL to start
         run: sleep 15
